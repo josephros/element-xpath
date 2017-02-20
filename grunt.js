@@ -51,7 +51,7 @@ module.exports = function (grunt) {
   });
 
   // Build task.
-  grunt.registerTask('build', 'lint min');
+  grunt.registerTask('build', 'min');
 
   // Default task.
   grunt.registerTask('default', 'watch');

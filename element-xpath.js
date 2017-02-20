@@ -16,15 +16,15 @@
     emptyFunction = function () {},
 
     // Create a safe reference to the getElementXpath object for use below.
-    getElementXpath = function (el, callback) {
+    getElementXpath = function (el, _document) {
       var err, result, nodes, i, n, segments, siblings, id_count;
       try {
-        if (callback && (typeof callback !== "function")) {
-          throw new Error("Invalid callback supplied");
-        }
+        // if (callback && (typeof callback !== "function")) {
+        //   throw new Error("Invalid callback supplied");
+        // }
 
         // We need to get all the tags on the document,
-        nodes = getElementXpath.getNodes(el);
+        nodes = getElementXpath.getNodes(el, _document);
 
         segments = [];
         while (el && el.nodeType === 1) {
@@ -49,17 +49,17 @@
       } catch (err) {
         // On sync mode the error will be included on the callback
         // remove if only async is supported
-        if (!callback) {
+        // if (!callback) {
           throw err;
-        }
+        // }
       }
 
       // Async mode, remove condition if only async is supported
-      if (callback) {
-        callback(err, result);
-      } else {
+      // if (callback) {
+      //   callback(err, result);
+      // } else {
         return result;
-      }
+      // }
     };
 
 
@@ -74,8 +74,10 @@
   // Returns a list of nodes on the document
   // you might want to memoizee or throttle this method
   // if your DOM will not change between getElementXpath calls
-  getElementXpath.getNodes = function (el) {
-    return document.getElementsByTagName("*");
+  getElementXpath.getNodes = function (el, _document) {
+    _document = _document || document;
+
+    return _document.getElementsByTagName("*");
   };
 
   // Adds ID segments to the segments array
